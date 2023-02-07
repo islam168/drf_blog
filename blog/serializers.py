@@ -1,8 +1,18 @@
 from rest_framework import serializers
-from .models import Post
+from .models import Post, Category
 
-class PostSerializer(serializers.ModelSerializer):
+
+
+class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Post
+        model = Category
         fields = '__all__'
+
+class PostSerializer(serializers.ModelSerializer):
+    
+    category = CategorySerializer(many=False, read_only=True)
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'created_at', 'updated_at', 'category']
+
